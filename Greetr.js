@@ -1,4 +1,4 @@
-(function (global, $) {
+;(function (global, $) {
     
     // 'new' an object
     var Greetr = function(firstName, lastName, language) {
@@ -30,7 +30,7 @@
         
         // 'this' refers to the calling object at execution time
         fullName: function(){
-            return this.firstName + '' + this.lastName;
+            return this.firstName + ' ' + this.lastName;
         },
         
         validate: function(){
@@ -105,17 +105,19 @@
                 msg = this.formalGreeting();
             }
             else {
-                msg = this.greeting();
+                msg = this.greeting(); 
             }
             
-            // the actual object is created here, allowing us to 'new' an object without calling 'new'
+            // inject the message in the chosen place in the DOM
             $(selector).html(msg);
             
+            // make chainable
             return this;
         }
         
     };
     
+    // the actual object is created here, allowing us to 'new' an object without calling 'new'
     Greetr.init = function(firstName, lastName, language) {
         
         var self = this;
@@ -123,10 +125,14 @@
         self.lastName = lastName || '';
         self.language =language || 'en';
         
+        self.validate();
+        
     };
     
+    // trick barrowed from jQuery so we don't have to use the 'new' keyword
     Greetr.init.prototype = Greetr.prototype;
     
+    // aatahc our Greetr to the global object, and provide a shorthand '$G' for ease of our poor finger
     global.Greetr = global.G$ = Greetr;
     
 }(window, jQuery));
